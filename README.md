@@ -1,16 +1,16 @@
-## html5-vue-template
-这是个基于Vue的单页应用,有vue-cli完整的脚手架.而且集成了一个内容完整,结构较好的html5的网站模板,样式自适应手机和电脑. 可以拿来作为门户网站
+## National-Pattern-Museum
+这是个基于Vue搭建的民族图案博物馆前端项目
 
 ## 准备
 
 本地环境需要安装 [node](http://nodejs.org/)
 
-项目的技术栈基于 [ES2015+](http://es6.ruanyifeng.com/)、[vue](https://cn.vuejs.org/index.html)、[vuex](https://vuex.vuejs.org/zh-cn/)、[vue-router](https://router.vuejs.org/zh-cn/)
+项目的技术栈基于 [ES2015+](http://es6.ruanyifeng.com/)、[vue](https://cn.vuejs.org/index.html)、[vuex](https://vuex.vuejs.org/zh-cn/)、[vue-router](https://router.vuejs.org/zh-cn/)、[vue-axios](http://www.axios-js.com/)
 
 ## 开发
 ```bash
     # 克隆项目
-    git clone https://github.com/caoxile/html5-vue-template.git
+    git clone https://github.com/ricar0/National-Pattern-Museum.git
 
     # 安装依赖
     npm install
@@ -29,8 +29,4 @@
     npm run build
 ```
 
-
-## License
-
-MIT
 
