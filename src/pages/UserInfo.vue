@@ -152,7 +152,7 @@ import global from '../components/global.vue'
 export default {
     data () {    
         return {
-            src: require("../assets/init_user.png"),
+            src: require("../assets/logo.jpg"),
             uname: "",
             email: "",
             sex: "",

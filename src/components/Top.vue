@@ -12,7 +12,7 @@
                     <ul class="nav nav-justified">
                         <li><a href="#templatemo_banner_slide">首页</a></li>
                         <li><a href="#templatemo_about">新闻</a></li>
-                        <li><a href="#templatemo_events">展示</a></li>
+                        <li><a href="#templatemo_events">展馆</a></li>
                         <!-- <li><a href="#templatemo_timeline">Timeline</a></li> -->
                         <!-- <li><a href="#templatemo_contact">Contact</a></li> -->
                         <li>

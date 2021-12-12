@@ -144,7 +144,7 @@ export default {
     mounted: function() {
         var _this = this;
         Msg.$on("val", function(m){
-            // console.log(m)
+            //  console.log(m)
             _this.val=m
         })
     },
@@ -159,7 +159,7 @@ export default {
                     pid: this.val
                 }
             ).then(res=>{
-
+                
             })
         }
     }

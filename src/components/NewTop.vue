@@ -73,7 +73,7 @@ export default {
         var src = require('../assets/init_user.png');
         var info = "还未登录?";
         if (localStorage.getItem("token")) {
-            src = require('../assets/logo.png');
+            src = require('../assets/logo.jpg');
             info = "用户信息";
         }
         return {
