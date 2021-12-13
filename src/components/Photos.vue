@@ -5,7 +5,7 @@
             <div class="col-sm-10 col-sm-offset-1 col-md-6 col-md-offset-0">
                 <div class="event_box_wap event_animate_left">
                     <div class="event_box_img">
-                        <img @click="toExhibition" src="../../static/assets/images/templatemo_event_01.jpg" class="img-responsive" alt="阳雀花纹" />
+                        <img @click="toExhibition1" src="../../static/assets/images/templatemo_event_01.jpg" class="img-responsive" alt="阳雀花纹" />
                     </div>
                     <div class="event_box_caption">
                         <h1>卷草纹</h1>
@@ -56,12 +56,12 @@
 </template>
 
 <script>
-import Msg from './Msg.js'
+
 export default {
     methods: {
-        toExhibition: function() {
-            Msg.$emit("val", "1")
-            this.$router.replace('/Exhibition')
+        toExhibition1: function() {
+            localStorage.setItem("now", 1)
+            this.$router.push('/Exhibition')
         }
     }
 }

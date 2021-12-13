@@ -97,7 +97,7 @@ export default {
                 alert("密码不一致")
                 return;
             }
-            var url=global.usr+'/user/resetPass'
+            var url=global.url+'/user/resetPass'
             this.$http.post(
                 url, 
                 {

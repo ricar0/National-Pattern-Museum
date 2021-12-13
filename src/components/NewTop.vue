@@ -68,23 +68,25 @@
 </style>
 
 <script>
+import global from './global.vue'
 export default {
     data() {
-        var src = require('../assets/init_user.png');
-        var info = "还未登录?";
-        if (localStorage.getItem("token")) {
-            src = require('../assets/logo.jpg');
+        var src, info;
+        if (!localStorage.getItem('uid')) {
+            src = require('../assets/init_user.jpg');
+            info = "还未登录?";
+        } else {
+            src = global.url+'/images2/'+localStorage.getItem('uid')+'.jpg';
             info = "用户信息";
         }
         return {
             src,
-            info    
+            info
         }
     },
-    inject: ['reload'],
     methods: {
         f1: function() {
-            if (localStorage.getItem("token")) {
+            if (localStorage.getItem("uid")) {
                 this.$router.replace('/UserInfo')
             } else {
                 this.$router.replace('/Login')

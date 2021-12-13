@@ -63,12 +63,15 @@
 </style>
 
 <script>
+import global from './global.vue'
 export default {
     data() {
-        var src = require('../assets/init_user.png');
-        var info = "还未登录?";
-        if (localStorage.getItem("token")) {
-            src = require('../assets/logo.jpg');
+        var src, info;
+        if (!localStorage.getItem('uid')) {
+            src = require('../assets/init_user.jpg');
+            info = "还未登录?";
+        } else {
+            src = global.url+'/images2/'+localStorage.getItem('uid')+'.jpg';
             info = "用户信息";
         }
         return {
@@ -76,18 +79,16 @@ export default {
             info
         }
     },
-
     methods: {
         f1: function() {
-            if (localStorage.getItem("token")) {
-                this.$router.replace('/UserInfo')
+            if (localStorage.getItem("uid")) {
+                this.$router.push('/UserInfo')
             } else {
-                this.$router.replace('/Login')
+                this.$router.push('/Login')
             }
         },
         f2 : function() {
-             this.$router.replace('/Exhibition')
-        
+            this.$router.push('/Exhibition')
         }
     }
 }

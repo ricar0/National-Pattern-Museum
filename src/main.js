@@ -18,10 +18,10 @@ Vue.use(ElementUI)
 Vue.config.productionTip = false
 router.beforeEach(function(to, from, next) {
   if (to.meta.needLogin) {
-      if (localStorage.getItem("token")) {
+      if (localStorage.getItem("uid")) {
           next();
       } else {
-          next('/Login');
+        next('/Login');
       } 
   } else {
       next();

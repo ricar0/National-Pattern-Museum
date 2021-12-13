@@ -152,7 +152,7 @@ import global from '../components/global.vue'
 export default {
     data () {    
         return {
-            src: require("../assets/logo.jpg"),
+            src: '',
             uname: "",
             email: "",
             sex: "",
@@ -160,6 +160,7 @@ export default {
             phone: "",
             qq: "",
             wechat: "",
+            // pic
         }
     },
     components: {
@@ -167,7 +168,7 @@ export default {
     },
     methods: {
         f:function() {
-            this.$router.replace('/UpdInfo')
+            this.$router.push('/UpdInfo')
         },
         uploadImg() {
             let tmp = this.$refs.input.files
@@ -176,6 +177,7 @@ export default {
                 this.inputValue = null
             } else {
                 this.showImage(tmp[0])
+                this.pic = tmp[0]
                 // this.src=require(img.src);
             }
         },
@@ -187,16 +189,17 @@ export default {
             }
         },
         saveImg: function() {
-            let data = {
-                file: this.src
-            }
-            var url =""
+            var url = global.url + '/upload'
+            let bodyFormData = new FormData();
+            bodyFormData.append("file", this.pic)
+            bodyFormData.append("uid", localStorage.getItem('uid'))
+            // console.log(this.pic)
             this.$http.post(
                 url,
-                data
+                bodyFormData
             ).then(res=>{
                 if (res.data.code === 1) {
-                    alert(res.data.msg)
+                    alert("修改成功!")
                 } else {
                     alert(res.data.msg)
                 }
@@ -204,7 +207,8 @@ export default {
         },
     },
     mounted() {
-        var url = global.url+"/user/findByEmail/" + localStorage.getItem("token")
+        this.src=global.url+"/images2/"+localStorage.getItem('uid')+'.jpg'
+        var url = global.url+"/user/findByEmail/" + localStorage.getItem("email")
         this.$http.get(
             url
         ).then(res=>{

@@ -8,9 +8,9 @@
                 <p style="font-size: 25px; padding: 30px 40px; font-weight:900;">发表评论</p>
                 <div class="my_commit">
                     <div class="left" style="width: 150px; float: left;">
-                        <img v-bind:src="src">
+                        <img v-bind:src="mysrc">
                     </div>
-                    <div class="right" style="float: left; height: 100px; width: 500px;">
+                    <div class="right" style="float: left; height: 100px; width: 500px; margin-top:10px;">
                         <el-input
                         type="textarea"
                         rows="4"
@@ -20,7 +20,7 @@
                         v-model="textarea">
                         </el-input>
                     </div>
-                    <el-button style="margin-left:550px; width: 100px; margin-top: 10px; height: 35px;">发布</el-button>
+                    <el-button @click="submit" style="margin-left:550px; width: 100px; margin-top: 10px; height: 35px;">发布</el-button>
                 </div>
                 <el-divider></el-divider>
                 <div class="commit_body">
@@ -31,15 +31,15 @@
                         </div>
                         <div class="user_commit" style="float: left; height: 100px; width: 570px;">
                             <p style="font-size:10px; font-weight:900;">{{item.uname}}</p>
-                            <p style="font-size:15px;">{{item.commit}}</p>
-                            <p style="font-size:10px;">{{item.date}}</p>
+                            <p style="font-size:15px;">{{item.pltxt}}</p>
+                            <p style="font-size:10px;">{{item.pltime}}</p>
                         </div>
                     </div>
                 </div>
-                <div class="buttom_pagination" style="width:120px;">
+                <div style="margin-left: 38%; margin-top: 20px;">
                     <el-pagination @current-change="changePage"
                         layout="prev, pager, next"
-                        :total="50">
+                        :total="total">
                     </el-pagination>
                 </div>
             </div>
@@ -62,7 +62,7 @@
         background-color: white;
     }
     .left img {
-        margin-top: 0px;
+        margin-top: 20px;
         margin-left: 45px;
         display: block;
         width: 70px;
@@ -73,10 +73,16 @@
     .my_commit {
         height: 160px;
         width: 700px;
+        box-shadow:
+         2px 2px 10px grey,
+         5px 5px 20px blue;
     }
     .commit_body {
         height: 800px;
         width: 700px;
+        box-shadow:
+         2px 2px 10px red,
+         5px 5px 20px blue;
     }
     .commit_box {
         height: 1200px;
@@ -92,74 +98,88 @@
         width: 100%;
         height: 990px;
     }
-    .buttom_pagination {
-        margin: 0 auto;
-    }
 </style>
 
 <script>
-import Msg from '../components/Msg.js'
+import global from '../components/global.vue'
 export default {
     data() {
+        var mysrc = global.url + '/images2/' + localStorage.getItem('uid') + '.jpg'
         return {
-            val: 0,
             textarea: '',
-            total: 1,
-            src: require('../assets/init_user.png'),
-            num: 10,
-            items: [
-                {
-                    src: require('../assets/init_user.png'),
-                    uname: '1',
-                    commit: 'abababa....',
-                    date: '2021-12-8'
-                },
-                {
-                    src: require('../assets/init_user.png'),
-                    uname: '2',
-                    commit: 'abababa....',
-                    date: '2021-12-8'
-                },
-                {
-                    src: require('../assets/init_user.png'),
-                    uname: '2',
-                    commit: 'abababa....',
-                    date: '2021-12-8'
-                },
-                {
-                    src: require('../assets/init_user.png'),
-                    uname: '2',
-                    commit: 'abababa....',
-                    date: '2021-12-8'
-                },
-                {
-                    src: require('../assets/init_user.png'),
-                    uname: '2',
-                    commit: 'abababa....',
-                    date: '2021-12-8'
-                },
-            ]
+            total: 10,
+            mysrc,
+            num: 0,
+            items: []
         }
     },
-    mounted: function() {
-        var _this = this;
-        Msg.$on("val", function(m){
-            //  console.log(m)
-            _this.val=m
+    mounted() {
+        var url=global.url+'/comment/findByPidPages'
+        this.$http.post (
+            url,
+            {
+                pageSize: 5,
+                pid: localStorage.getItem('now'),
+                pageNo: 1
+            }
+        ).then(res=>{
+            this.items = res.data.data
+            for (let i = 0; i < this.items.length; i++) {
+                this.items[i].src=global.url+'/images2/'+res.data.data[i].uid+'.jpg'
+            }
+        })
+
+        url=global.url+'/comment/findPageNumByPid/'+localStorage.getItem('now')
+        this.$http.get (
+            url,
+        ).then(res=>{
+            this.num = res.data.data;
+            if (this.num % 5 === 0) this.total = this.num / 5 * 10;
+            else this.total = (Math.floor(this.num / 5) + 1) * 10;
+            // console.log(this.total)
         })
     },
     methods: {
         changePage(page) {
-            console.log(this.val)
-            var url=""
+            var url=global.url+'/comment/findByPidPages'
             this.$http.post (
                 url,
                 {
-                    page: page,
-                    pid: this.val
+                    pageSize: 5,
+                    pid: localStorage.getItem('now'),
+                    pageNo: page
                 }
             ).then(res=>{
-                
+                this.items = res.data.data
+                for (let i = 0; i < this.items.length; i++) {
+                    this.items[i].src=global.url+'/images2/'+res.data.data[i].uid+'.jpg'
+                }
+            })
+        },
+        submit() {
+            if (!localStorage.getItem('uid')) {
+                this.$router.push('/Login?back=/Exhibition')
+                return;
+            } 
+            if (this.textarea === '') {
+                alert("不能发表空段落!")
+                return;
+            }
+            var url=global.url+'/comment/addComment'
+            this.$http.post (
+                url,
+                {
+                    pid: localStorage.getItem('now'),
+                    uid: localStorage.getItem('uid'),
+                    pltxt: this.textarea
+                }
+            ).then(res=>{
+                console.log(res)
+                if (res.data.code === 1) {
+                    alert("发布成功!")
+                    this.$router.go(0)
+                    this.total = ((this.num-1) / 5 + 1) * 10;
+                }
             })
         }
     }

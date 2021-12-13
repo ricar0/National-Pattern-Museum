@@ -168,7 +168,7 @@ export default {
             ).then(res=>{
                 console.log(res);
                 if (res.data.code===1) {
-                    alert(res.data.msg)
+                    alert("修改成功!")
                     this.$router.replace('/UserInfo')
                 } else {
                     alert(res.data.msg)
@@ -179,7 +179,7 @@ export default {
         }
     },
     mounted: function() {
-        var url = global.url+"/user/findByEmail/" + localStorage.getItem("token")
+        var url = global.url+"/user/findByEmail/" + localStorage.getItem("email")
         this.$http.get(
             url,
         ).then(res=>{

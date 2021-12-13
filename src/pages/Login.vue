@@ -94,8 +94,10 @@ export default {
                 if (res.data.code === 1) {
                     console.log(res)
                     this.$router.replace('/')
-                    localStorage.setItem("token", this.email)
-                    alert(res.data.msg)
+                    this.$router.go(-1)
+                    localStorage.setItem("email", this.email)
+                    localStorage.setItem("uid", res.data.data[0].uid)
+                    alert("登录成功!")
                 } else {
                     console.log(this.upass)
                     console.log(this.email)

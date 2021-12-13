@@ -90,7 +90,11 @@ export default {
                     email: this.email
                 }
             ).then(res=>{
-                alert(res.data.msg)
+                if (res.data.code === 1) {
+                    alert("发送成功")
+                } else {
+                    alert(res.data.msg)
+                }
                 console.log(res.data)
             })
         },
@@ -111,8 +115,14 @@ export default {
                 console.log(res)
                 if (res.data.code === 1) {
                     console.log(res)
+                    var url = global.url+'/user/sendUid/'+res.data.data[0].uid
+                    this.$http.get (
+                        url,
+                    ).then(res2=>{
+                        console.log(res2.data.msg)
+                    })
+                    alert("注册成功!")
                     this.$router.replace('/Login')
-                    alert(res.data.msg)
                 } else {
                     alert(res.data.msg)
                 }
