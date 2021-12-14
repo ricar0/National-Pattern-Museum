@@ -25,7 +25,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        background-image: url("../assets/banner-home3.jpg");
+        background: url("../assets/banner-home3.jpg");
         background-size: cover;
         background-position: 100% 100%;
         background-repeat: no-repeat;
@@ -93,15 +93,18 @@ export default {
                 console.log(res)
                 if (res.data.code === 1) {
                     console.log(res)
-                    this.$router.replace('/')
-                    this.$router.go(-1)
+                    // this.$router.replace('/')
+                    this.$message({
+                        message: '登录成功',
+                        type: 'success'
+                    });
+                    this.$router.push('/')
                     localStorage.setItem("email", this.email)
                     localStorage.setItem("uid", res.data.data[0].uid)
-                    alert("登录成功!")
                 } else {
                     console.log(this.upass)
                     console.log(this.email)
-                    alert(res.data.msg)
+                    this.$message.error(res.data.msg);
                 }
             }).catch(error => {
                 console.log(error)

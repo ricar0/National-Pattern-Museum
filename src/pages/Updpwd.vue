@@ -89,12 +89,19 @@ export default {
                 }
             ).then(res=>{
                 console.log(res.data.data)
-                alert(res.data.msg)
+                if (res.data.code === 1) {
+                    this.$message({
+                        message: "发送成功",
+                        type: "success"
+                    })
+                } else {
+                    this.$message.error(res.data.msg)
+                }
             })
         },
         check() {
             if (this.upass !== this.reupass) {
-                alert("密码不一致")
+                this.message.error("两次密码不一致")
                 return;
             }
             var url=global.url+'/user/resetPass'
@@ -109,9 +116,12 @@ export default {
                 if (res.data.code === 1) {
                     console.log(res)
                     this.$router.replace('/Login')
-                    alert(res.data.msg)
+                    this.$message({
+                        message: "修改成功!",
+                        type: "success"
+                    })
                 } else {
-                    alert(res.data.msg)
+                    this.message.error(res.data.msg)
                 }
             }).catch(error => {
                 console.log(error)

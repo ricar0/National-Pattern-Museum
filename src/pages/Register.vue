@@ -91,16 +91,19 @@ export default {
                 }
             ).then(res=>{
                 if (res.data.code === 1) {
-                    alert("发送成功")
+                    this.$message({
+                        message: "发送成功",
+                        type: "success"
+                    })
                 } else {
-                    alert(res.data.msg)
+                    this.$message.error(res.data.msg)
                 }
                 console.log(res.data)
             })
         },
 		register() {
             if (this.upass !== this.reupass) {
-                alert("密码不一致")
+                this.$message.error("密码不一致")
                 return;
             }
             var url=global.url+'/user/add'
@@ -121,10 +124,13 @@ export default {
                     ).then(res2=>{
                         console.log(res2.data.msg)
                     })
-                    alert("注册成功!")
+                    this.$message({
+                        message: "注册成功!",
+                        type: "success"
+                    })
                     this.$router.replace('/Login')
                 } else {
-                    alert(res.data.msg)
+                    this.$message.error(res.data.msg)
                 }
             }).catch(error => {
                 console.log(error)

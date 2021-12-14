@@ -26,7 +26,12 @@
     <!-- <Contact></Contact> -->
     <div id="templatemo_footer">
         <div>
-            <p id="footer">Copyright &copy; 2084 Company Name</p>
+            <p id="footer">Copyright &copy; 2021 系统设计小组 
+                </br>
+                Developer: 
+                <a style="text-decoration:none" href="https://github.com/ricar0">@ricar0</a>
+            </p>
+            
         </div>
     </div>
 </div>

@@ -1,5 +1,5 @@
 body {
-    background: url(../img/body-bg.jpg) no-repeat;
+    background: url(../img/body-bg.png) no-repeat;
     background-size: cover;
 }
 
@@ -15,7 +15,7 @@ body {
     position: relative;
     margin-top: -160px;
     padding: 12px 16px;
-    min-width: 200px;
+    width: 256px;
     background: rgba(11, 21, 50, 0.8);
     border-radius: 20px 0 20px 0;
     box-shadow: 0 0 12px 1px #ec7d0f;
@@ -44,9 +44,13 @@ body {
     font-size: 18px;
 }
 
-.map-hover-box p {
-    padding-top: 12px;
-    font-size: 16px;
+.map-hover-box p dt{
+    font-size: 12px;
+    width: 100%;  
+    height: auto;  
+    word-wrap:break-word;  
+    word-break:break-all;
+	overflow:hidden;
 }
 
 .map-hover-box i {
@@ -54,7 +58,7 @@ body {
     position: absolute;
     bottom: -108px;
     left: -75px;
-    width: 100px;
+    width: 256px;
     height: 108px;
 }
 

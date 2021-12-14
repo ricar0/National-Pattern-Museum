@@ -148,8 +148,22 @@ export default {
     },
     methods: {
         unchange: function(){
-            alert("你做出的操作未被保存");
-            this.$router.replace('/UserInfo');
+            this.$confirm('你做出的修改未被保存，确定要返回吗?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+                }).then(() => {
+                this.$message({
+                    type: 'success',
+                    message: '成功返回!'
+                });
+                this.$router.replace('/UserInfo');
+                }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '取消操作!'
+                });          
+            });
         },
         change: function() {
             console.log(this.user.birthday)
@@ -168,7 +182,10 @@ export default {
             ).then(res=>{
                 console.log(res);
                 if (res.data.code===1) {
-                    alert("修改成功!")
+                    this.$message({
+                        message: "保存成功!",
+                        type: "success"
+                    })
                     this.$router.replace('/UserInfo')
                 } else {
                     alert(res.data.msg)

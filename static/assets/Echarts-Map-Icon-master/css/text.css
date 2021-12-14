@@ -1,0 +1,24 @@
+body {
+	font: 12px sans-serif;
+	margin-left:20px;
+	text-align: center;
+}
+.axis path,
+.axis line {
+	fill: none;
+	stroke: #000;
+	shape-rendering: crispEdges;
+}
+.y.axis path {
+	display: none;
+}
+.y.axis line {
+	stroke: #777;
+	stroke-dasharray: 2,2;
+}
+/*.nomPeriode {display:none;}*/
+text {
+	display:block;
+	background-color: #FFFFFF;
+	/* text-align: center; */
+}

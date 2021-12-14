@@ -11,6 +11,7 @@ body {
 }
 .container-fluid {
     max-width: 1600px;
+    /* background: url('../../../src/assets/bg_left.png'), url('../../../src/assets/bg_right.png') top; */
 }
 .container_wapper {
     width: 100%;

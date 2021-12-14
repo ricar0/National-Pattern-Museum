@@ -20,11 +20,6 @@
                                 <img v-bind:src="src" v-bind:title="info">
                             </a>
                         </li>
-                        <!-- <li>
-                            <a @click="f2" class="fff" style="cursor:pointer;">
-                                <img src="../assets/logo.png">
-                            </a>
-                        </li> -->
                     </ul>
                 </div>
                 <div class="col-xs-8 visible-xs">
@@ -76,7 +71,7 @@ export default {
         }
         return {
             src,
-            info
+            info,
         }
     },
     methods: {
@@ -88,7 +83,9 @@ export default {
             }
         },
         f2 : function() {
-            this.$router.push('/Exhibition')
+            localStorage.removeItem('email')
+            localStorage.removeItem('uid')
+            this.$router.go(0)
         }
     }
 }

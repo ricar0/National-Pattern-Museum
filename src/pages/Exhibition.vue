@@ -1,9 +1,16 @@
 <template>
+    <body>
     <div>
         <div class="main">
-            <iframe runat="server" frameborder="no" scrolling="no" src="../../static/assets/Echarts-Map-Icon-master/time_map.html"></iframe>
+            <iframe runat="server" frameborder="no" scrolling="no" src="static/assets/Echarts-Map-Icon-master/time_map.html"></iframe>
         </div>
-        <div class="buttom" style="">
+        <div class="buttom" style="position: relative;">
+            <div style="position: absolute; bottom: 90px; left: 100px;">
+                <el-button @click="toHome" type="primary" icon="el-icon-arrow-left">返回主页</el-button>
+                <br/>
+                <br/>
+                <el-button @click="toTop" type="primary" icon="el-icon-arrow-left">返回顶端</el-button>
+            </div>
             <div class="commit_box">
                 <p style="font-size: 25px; padding: 30px 40px; font-weight:900;">发表评论</p>
                 <div class="my_commit">
@@ -45,9 +52,13 @@
             </div>
         </div>
     </div>
+    </body>
 </template>
 
 <style scoped>
+    body {
+        background-image: url("../assets/bg_left.png"), url("../assets/bg_right.png");
+    }
     .user_commit p {
         word-break: break-all;
         word-wrap: break-word;
@@ -73,16 +84,16 @@
     .my_commit {
         height: 160px;
         width: 700px;
+        background-image: linear-gradient(25deg, #e6edf6, #eef3f9, #f7f9fc, #ffffff);
         box-shadow:
-         2px 2px 10px grey,
-         5px 5px 20px blue;
+         10px 10px 5px grey;
     }
     .commit_body {
         height: 800px;
         width: 700px;
+        background-image: linear-gradient(25deg, #e6edf6, #eef3f9, #f7f9fc, #ffffff);
         box-shadow:
-         2px 2px 10px red,
-         5px 5px 20px blue;
+         10px 10px 5px grey;
     }
     .commit_box {
         height: 1200px;
@@ -96,7 +107,7 @@
     }
     iframe {
         width: 100%;
-        height: 990px;
+        height: 1000px;
     }
 </style>
 
@@ -104,13 +115,19 @@
 import global from '../components/global.vue'
 export default {
     data() {
-        var mysrc = global.url + '/images2/' + localStorage.getItem('uid') + '.jpg'
+        var mysrc;
+        if (!localStorage.getItem('uid')) {
+            mysrc = global.url + '/images2/0.jpg'
+        } else  {
+            mysrc = global.url + '/images2/' + localStorage.getItem('uid') + '.jpg'
+        }
         return {
             textarea: '',
             total: 10,
             mysrc,
             num: 0,
-            items: []
+            items: [],
+            timer: null
         }
     },
     mounted() {
@@ -139,6 +156,7 @@ export default {
             // console.log(this.total)
         })
     },
+    
     methods: {
         changePage(page) {
             var url=global.url+'/comment/findByPidPages'
@@ -156,13 +174,34 @@ export default {
                 }
             })
         },
+        toHome() {
+            this.$router.push('/')
+        },
+        toTop() {
+            window.scrollTo(0,0);
+        },
         submit() {
             if (!localStorage.getItem('uid')) {
-                this.$router.push('/Login?back=/Exhibition')
+                this.$confirm('评论前请先登录，是否确定登录?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                    }).then(() => {
+                    this.$message({
+                        type: 'success',
+                        message: '成功返回!'
+                    });
+                    this.$router.push('/Login')
+                    }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '取消操作!'
+                    });          
+                });
                 return;
             } 
             if (this.textarea === '') {
-                alert("不能发表空段落!")
+                this.$message.error("不能发表空段落!")
                 return;
             }
             var url=global.url+'/comment/addComment'
@@ -176,9 +215,15 @@ export default {
             ).then(res=>{
                 console.log(res)
                 if (res.data.code === 1) {
-                    alert("发布成功!")
-                    this.$router.go(0)
-                    this.total = ((this.num-1) / 5 + 1) * 10;
+                    this.$message({
+                        message: '发布成功!',
+                        type: "success"
+                    })
+                    clearTimeout(this.timer);
+                    this.timer = setTimeout(()=>{   //设置延迟执行
+                        this.$router.go(0)
+                        this.total = ((this.num-1) / 5 + 1) * 10;
+                    },1000);
                 }
             })
         }
