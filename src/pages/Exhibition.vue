@@ -1,6 +1,7 @@
 <template>
     <body>
     <div>
+        <div style="height: 50px;"><el-button style="position: absolute; top: 50px; left: 100px;" @click="toHome" type="primary" icon="el-icon-arrow-left">返回主页</el-button></div>
         <div class="main">
             <iframe runat="server" frameborder="no" scrolling="no" src="static/assets/Echarts-Map-Icon-master/time_map.html"></iframe>
         </div>

@@ -79,6 +79,7 @@ export default {
             upass:'',
             reupass:'',
             tempcode:'',
+            timer: null
     	}
   	},
 	methods: {
@@ -91,19 +92,28 @@ export default {
                 }
             ).then(res=>{
                 if (res.data.code === 1) {
-                    this.$message({
-                        message: "发送成功",
-                        type: "success"
-                    })
+                    this.$notify({
+                        message: '发送成功!',
+                        type: 'success',
+                        offset: 100
+                    });
                 } else {
-                    this.$message.error(res.data.msg)
+                    this.$notify({
+                        message: res.data.msg,
+                        type: 'error',
+                        offset: 100
+                    });
                 }
                 console.log(res.data)
             })
         },
 		register() {
             if (this.upass !== this.reupass) {
-                this.$message.error("密码不一致")
+                this.$notify({
+                    message: '两次密码不一致!',
+                    type: 'error',
+                    offset: 100
+                });
                 return;
             }
             var url=global.url+'/user/add'
@@ -124,13 +134,21 @@ export default {
                     ).then(res2=>{
                         console.log(res2.data.msg)
                     })
-                    this.$message({
-                        message: "注册成功!",
-                        type: "success"
+                    this.$notify({
+                        message: "注册成功!...返回登录界面",
+                        type: "success",
+                        offset: 100
                     })
-                    this.$router.replace('/Login')
+                    clearTimeout(this.timer);
+                    this.timer = setTimeout(()=>{   //设置延迟执行
+                        this.$router.replace('/Login')
+                    },1000);
                 } else {
-                    this.$message.error(res.data.msg)
+                    this.$notify({
+                    message: res.data.msg,
+                    type: 'error',
+                    offset: 100
+                });
                 }
             }).catch(error => {
                 console.log(error)

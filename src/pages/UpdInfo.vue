@@ -182,9 +182,10 @@ export default {
             ).then(res=>{
                 console.log(res);
                 if (res.data.code===1) {
-                    this.$message({
+                    this.$notify({
                         message: "保存成功!",
-                        type: "success"
+                        type: "success",
+                        offset: 100
                     })
                     this.$router.replace('/UserInfo')
                 } else {

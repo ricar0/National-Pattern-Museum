@@ -197,12 +197,17 @@ export default {
       // console.log(this.pic)
       this.$http.post(url, bodyFormData).then((res) => {
         if (res.data.code === 1) {
-          this.message({
-              message: '保存成功!',
-              type: 'success'
+          this.$notify({
+            message: "修改成功!",
+            type: "success",
+            offset: 100
           })
         } else {
-          alert(res.data.msg);
+          this.$notify({
+            message: res.data.msg,
+            type: "error",
+            offset: 100            
+          })
         }
       });
     },

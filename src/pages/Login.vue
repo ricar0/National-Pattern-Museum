@@ -75,11 +75,19 @@ export default {
   methods:{
     login() {
             if (this.email === '') {
-                alert('邮箱不能为空')
+                this.$notify({
+                        message: '邮箱不能为空!',
+                        type: 'error',
+                        offset: 100
+                    });
                 return;
             }
             if (this.upass === '') {
-                alert('密码不能为空')
+                this.$notify({
+                        message: '密码不能为空!',
+                        type: 'error',
+                        offset: 100
+                    });
                 return;
             }
             var url=global.url+'/user/login'
@@ -94,17 +102,26 @@ export default {
                 if (res.data.code === 1) {
                     console.log(res)
                     // this.$router.replace('/')
-                    this.$message({
-                        message: '登录成功',
-                        type: 'success'
-                    });
-                    this.$router.push('/')
+                    this.$notify({
+                        message: "登录成功!...正在跳转主页",
+                        type: "success",
+                        offset: 100
+                    })
+                    clearTimeout(this.timer);
+                    this.timer = setTimeout(()=>{   //设置延迟执行
+                        this.$router.replace('/')
+                    },1000);
+                    
                     localStorage.setItem("email", this.email)
                     localStorage.setItem("uid", res.data.data[0].uid)
                 } else {
                     console.log(this.upass)
                     console.log(this.email)
-                    this.$message.error(res.data.msg);
+                    this.$notify({
+                        message: res.data.msg,
+                        type: 'error',
+                        offset: 100
+                    });
                 }
             }).catch(error => {
                 console.log(error)

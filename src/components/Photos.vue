@@ -20,9 +20,9 @@
                         <img src="../../static/assets/images/templatemo_event_02.jpg" class="img-responsive" alt="太阳月亮星辰纹" />
                     </div>
                     <div class="event_box_caption">
-                        <h1>蝴蝶长寿花纹</h1>
-                        <p><span class="glyphicon glyphicon-map-marker"></span> 壮族 &nbsp;&nbsp; </p>
-                        <p>由三块窄幅织锦拼接而成的壮族被面，红色为地，黄、绿、米、粉等颜色显示花纹，一派热闹景象。连续不断的雷纹构成菱形骨架， 主体纹样为抽象蝶纹，但仍可以清晰分辨出身体、翅膀、触角和眼睛；菊花纹以六边形为花蕊，浅黄色几何形块面为花瓣，生动形象。</p>
+                        <h1>回纹</h1>
+                        <p><span class="glyphicon glyphicon-map-marker"></span> 蒙古族 &nbsp;&nbsp; </p>
+                        <p>回纹，又称回字纹。是被中国民间称为富贵不断头的一种纹样。常见于新石器时代的彩陶器和商周青铜时代的青铜器上。它是由古代陶器和青铜器上的雷纹衍化来的几何纹样，因为它是由横竖短线折绕组成的方形或圆形的回环状花纹，形如“回”字，所以称做回纹。</p>
                     </div>
                 </div>
             </div>

@@ -30,6 +30,7 @@
                 </br>
                 Developer: 
                 <a style="text-decoration:none" href="https://github.com/ricar0">@ricar0</a>
+                <a style="text-decoration:none" href="https://github.com/KEPADEDAIDAI">@KEPADEDAIDAI</a>
             </p>
             
         </div>
