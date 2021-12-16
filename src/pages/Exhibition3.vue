@@ -1,9 +1,13 @@
 <template>
     <body>
     <div>
-        <div style="height: 50px;"><el-button style="position: absolute; top: 50px; left: 100px;" @click="toHome" type="primary" icon="el-icon-arrow-left">返回主页</el-button></div>
+        <div style="height: 30px;"><el-button style="position: absolute; top: 30px; left: 100px;" @click="toExhibition1" type="primary" icon="el-icon-arrow-left">卷草纹纹展馆</el-button></div>
+        <div style="height: 30px;"><el-button style="position: absolute; top: 30px; right: 100px;" @click="toExhibition2" type="primary" icon="el-icon-arrow-right">八角星纹展馆</el-button></div>
         <div class="main">
-            <iframe runat="server" frameborder="no" scrolling="no" src="static/assets/Echarts-Map-Icon-master/time_map.html"></iframe>
+            <!-- <iframe runat="server" frameborder="no" scrolling="no" src="../../static/assets/Echarts-Map-Icon-master/time_map-1.html"></iframe> -->
+            <!-- <iframe runat="server" frameborder="no" scrolling="no" src="../../static/assets/Echarts-Map-Icon-master/time_map-2.html"></iframe> -->
+            <iframe runat="server" frameborder="no" scrolling="no" src="../../static/assets/Echarts-Map-Icon-master/time_map-3.html"></iframe>
+            <!-- <iframe runat="server" frameborder="no" scrolling="no" src="../../static/assets/Echarts-Map-Icon-master/time_map-4.html"></iframe> -->
         </div>
         <div class="buttom" style="position: relative;">
             <div style="position: absolute; bottom: 90px; left: 100px;">
@@ -13,7 +17,7 @@
                 <el-button @click="toTop" type="primary" icon="el-icon-arrow-left">返回顶端</el-button>
             </div>
             <div class="commit_box">
-                <p style="font-size: 25px; padding: 30px 40px; font-weight:900;">发表评论</p>
+                <p style="font-size: 25px; padding: 30px 40px; font-weight:900; margin-bottom:0px;">发表评论</p>
                 <div class="my_commit">
                     <div class="left" style="width: 150px; float: left;">
                         <img v-bind:src="mysrc">
@@ -101,6 +105,7 @@
         width: 700px;
         background-color: white;
         margin: 0 auto;
+        background-image: url("../assets/bg_left.png"), url("../assets/bg_right.png");
     }
     .main {
         width: 100%;
@@ -128,7 +133,7 @@ export default {
             mysrc,
             num: 0,
             items: [],
-            timer: null
+            timer: null,
         }
     },
     mounted() {
@@ -159,6 +164,14 @@ export default {
     },
     
     methods: {
+        toExhibition2() {
+            localStorage.setItem("now", 2)
+            this.$router.push('/Exhibition2')
+        },
+        toExhibition1() {
+            localStorage.setItem("now", 1)
+            this.$router.push('/Exhibition1')
+        },
         changePage(page) {
             var url=global.url+'/comment/findByPidPages'
             this.$http.post (

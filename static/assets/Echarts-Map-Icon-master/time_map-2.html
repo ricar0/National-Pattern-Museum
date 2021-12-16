@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/text.css">
+    <title>中国地图</title>
+</head>
+
+<body>
+    <section class="map-box" style="height:700px;">
+        <div id="map-box" style="width: 100%; height: 700px;"></div>
+    </section>
+    <nav class="nav-box"></nav>
+    <script src="./js/jquery-1.10.2.js"></script>
+    <script src="./js/echarts.min.js"></script>
+    <script src="./js/china.js"></script>
+    <script src="./js/city-data.js"></script>
+    <script src="./js/d3.v3.min.js" charset="utf-8"></script>
+    <script>
+	var pid = [];
+	var pname = [];
+	var ptext = [];
+	var pcity = [];
+	var ptype = [];
+	var titletime;
+	var buttonid;
+	var findcity;
+	var titleimg;
+	var textimg;
+	var type = 2;
+
+	//window.onload  = function(){
+	var content = window.location.href;
+	content = content.substring(content.indexOf('?')+1, content.length);
+	var arr = content.split('&');
+	time_start = (arr[0]);
+	time_end = (arr[1]);
+	titletime = decodeURI(arr[2]);
+	buttonid = arr[3];
+	//type = arr[4];
+	//console.log(type);
+	
+	function findByTime(){
+		var num = 0;
+		var ajaxObj = new XMLHttpRequest();
+		var url = "http://139.9.125.137:8181/pic/findByTime/" + time_start + "/" + time_end +"/";
+		var img_list;
+		var img_data;
+		$.ajax({
+			data: "get",
+			url: url,
+			dataType: "html",
+			data: img_data,
+			cache: false,
+			async: false,
+			success: function (data) {
+				img_data = data;
+				img_data = img_data.substring(35,img_data.length-3);
+				img_list = img_data.split("},{");
+				for(var i = 0;i<img_list.length;i++){
+					var img_data = [];
+					img_data = img_list[i].split(",");
+					//id
+					if(img_data[0] != null){
+						img_data[0] = img_data[0].substring(6,img_data[0].length);
+						pid[num] = img_data[0];
+					}
+					//name
+					if(img_data[2] != null){
+						img_data[2] = img_data[2].substring(9,img_data[2].length-1);
+						pname[num] = img_data[2];
+					}
+					//text
+					if(img_data[13] != null){
+						img_data[13] = img_data[13].substring(8,img_data[13].length-1);
+						ptext[num] = img_data[13];
+					}
+					//city
+					if(img_data[10] != null){
+						img_data[10] = img_data[10].substring(13,img_data[10].length-1);
+						pcity[num] = img_data[10];
+					}
+					//type
+					if(img_data[14] != null){
+						img_data[14] = img_data[14].substring(8,img_data[14].length-1);
+						ptype[num] = img_data[14];
+					}
+					num = num + 1;
+				}
+				/*
+				for(var i = 0;i<pcity.length;i++){
+					console.log(pid[i]);
+					console.log(pname[i]);
+					console.log(ptext[i]);
+					console.log(pcity[i]);
+					console.log(ptype[i]);
+				}
+				*/
+			}
+		})
+	}
+	
+	function imgUrl() {
+		for(var i = 0;i<pcity.length;i++){
+			if(pcity[i] == findcity){
+				document.images.imgInit.src ='http://139.9.125.137:8181/images/'+pid[i]+'.jpg';		
+			}
+		}
+    }
+	
+	function imgfind() {
+		for(var i = 0;i<pcity.length;i++){
+			if(pcity[i] == findcity){
+				titleimg = pname[i];
+				textimg = ptext[i];			
+			}
+		}
+		if(textimg.length > 21){ //文本强制换行
+			textimg = textimg.substring(0,21) + "<br/>" + textimg.substring(22);
+			if(textimg.length > 42){
+				textimg = textimg.substring(0,47) + "<br/>" + textimg.substring(48);
+				if(textimg.length > 73){
+					textimg = textimg.substring(0,73) + "<br/>" + textimg.substring(74);
+				}
+			}	
+		}
+    }
+	
+	findByTime();
+    const oMap = echarts.init(document.querySelector('#map-box'));
+	if (titletime === 'undefined') titletime = "八星角纹展馆"
+    oMap.setOption({
+		title: {
+        text: titletime,
+        left: 'center',
+        textStyle: {
+            color: '#0000FF',
+            fontStyle: 'normal',
+            fontWeight: 'bold',
+            fontSize: 36,
+            lineHeight: 86,
+            textBorderColor: 'green',
+            textBorderWidth: 1,
+            textShadowColor: 'white',
+            textShadowBlur: 20,
+            textShadowOffsetX: 2,
+            textShadowOffsetY: 2
+         }
+     },
+		
+    // 提示框组件(可以设置在多种地方)       
+	tooltip: {
+		show: true, //是否显示提示框组件，包括提示框浮层和 axisPointer。
+		trigger: 'item', //触发类型。item,axis,none
+		enterable: true,//鼠标是否可进入提示框浮层中，默认为false，
+		showContent: true,          //是否显示提示框浮层
+		triggerOn: 'mousemove',//提示框触发的条件(mousemove|click|none)  
+		showDelay: 0,               //浮层显示的延迟，单位为 ms，默认没有延迟，也不建议设置。在 triggerOn 为 'mousemove' 时有效。
+		textStyle: {
+			color: 'white',
+			fontSize: 12
+		},
+		padding: [0, 8],
+		hideDelay: 10,             //浮层隐藏的延迟
+		formatter: (o) => (o.data) ? `
+			${findcity = o.name};
+			${imgfind()};
+			<div class="map-hover-box">
+				<div class="map-hover-mov">		
+					<h3>${titleimg}</h3>
+					<img src="" onerror="imgUrl()" id="imgInit" width="256px"/>
+					<p>地点：${o.name}</p>
+					<p>${textimg}</p>
+				</div>		
+			</section>` : '',
+            backgroundColor: '#00a2e3',  //提示框浮层的背景颜色。
+            alwaysShowContent: true,
+            transitionDuration: 1,      //动画过渡时间s
+	},
+
+    //地理坐标系组件。地理坐标系组件用于地图的绘制，支持在地理坐标系上绘制散点图，线集。
+	geo: {
+		show: true,
+      	map: 'china',
+		roam: false,
+		zoom: 1.2,
+		aspectScale: 0.9,
+		itemStyle: {
+			normal: {
+			opacity: 1,              //透明
+			borderColor: "#0e3c6d",  //描边颜色
+			borderWidth: 2,          //描边线宽
+			borderType: 'solid',     //描边
+			areaColor: "#0063cc",  	 //颜色
+			}
+		}
+	},
+
+	//系列列表
+	series: [{
+		map: 'china',
+		type: "scatter",
+		coordinateSystem: "geo",
+		symbolSize: 0,
+		silent: 'none',
+		data: chinaData.map(item => {
+			return {
+            	name: item.name,
+                value: [item.lng, item.lat]
+			};
+		})
+	},
+	{
+		map: 'china',
+		type: "map",
+		zoom: 1.2,                //当前视角的缩放比例。
+		aspectScale: 0.9,       //这个参数用于 scale 地图的长宽比。geoBoundingRect.width / geoBoundingRect.height * aspectScale
+		roam: false,            //是否开启鼠标缩放和平移漫游。默认不开启
+		label: {
+        	show: false,
+        	textStyle: {
+            	color: "white",
+            	fontSize: 12,
+            	backgroundColor: ''  //文字背景色
+         	}
+		},
+
+	itemStyle: {
+		normal: {
+			borderColor: "#4169E1",     //图形的描边颜色
+            borderWidth: 2,             //描边线
+    		borderType: 'solid',        
+        	areaColor: "#F0F8FF",   	//图形的颜色 #eee
+        	shadowBlur: 100,            //阴影模糊
+        	shadowColor: '#F0F8FF',     //阴影色
+         	shadowOffsetX: 20,          //X轴阴影
+        	shadowOffsetY: -20,         //Y轴阴影
+    		label: {
+            	show: true,
+            	textStyle: {
+                	fontWeight: 'bold',
+                	color: "#0000FF",
+                	fontSize: 14
+             	}
+			}
+		},
+
+		//鼠标移入时
+        emphasis: {
+			borderColor: "#0000FF",
+            borderWidth: "1",
+			areaColor: "#F0F8FF",
+			label: {
+				show: false,
+				textStyle: {
+					color: "#0000FF",
+					fontSize: 14
+				}
+			}
+		},
+
+		effect: {
+			show: true,
+			shadowBlur: 10,
+			loop: true
+		},
+	},
+
+	//自定义图片数组对象[{}, {}...]
+	}, ...chinaData.map((item, index) => {
+		for(var i=0;i<pcity.length;i++){
+			if(item.name == pcity[i]){
+				if(ptype[i] == type){
+					return {
+						type: "scatter",
+						coordinateSystem: "geo",
+						data: [{ name: item.name, value: [item.lng, item.lat] }],
+						symbolSize: [15, 15],
+						opacity:1,
+						//color: "#0000FF",
+						}					
+					}
+				}					
+			}
+		})]
+	});
+	
+	// Durée couverte par la frise
+	var debutFrise = -1000;
+	var finFrise = 2030;
+	var url = window.location.href;
+	url = url.substring(0, url.indexOf('?'));
+	// Dates des périodes historiques
+	var periodes = [
+		[1,"夏商周", -1000, -476, url + '?-5000&-746&夏商周&1'],
+		[2, "春秋战国", -722, -221, url + '?-722&-211&春秋战国&2'],
+		[3, "秦汉", -220, 220, url + '?-220&220&秦汉&3'],
+		[4, "三国两晋", 220, 420, url + '?220&420&三国两晋&4'],
+		[5, "南北朝", 420, 589, url + '?420&589&南北朝&5'],
+		[6, "隋唐", 590, 907, url + '?590&907&隋唐&6'],
+		[7, "五", 907, 961, url + '?907&979&五代十国&7'],
+		[8, "辽金西夏", 907, 1234, url + '?907&1234&辽金西夏&8'],
+		[9, "宋", 961, 1279, url + '?961&1279&宋&9'],
+		[10, "元", 1271, 1368, url + '?1271&1368&元&10'],
+		[11, "明", 1369, 1644, url + '?1369&1644&明&11'],
+		[12, "清", 1645, 1911, url + '?1645&1911&清&12'],
+		[13, "现代", 1912, 2030, url + '?1912&2030&现代&13']
+	];
+
+	// Positionnement de la frise
+	var margin = {top: 20, right: 150, bottom: 20, left: 1},
+    width = 1600 - margin.left - margin.right,
+    height = 100 - margin.top - margin.bottom;
+	
+	// Frise
+	var formatNumber = d3.format(" 1f");
+	var x = d3.scale.linear()
+		.domain([debutFrise, finFrise])
+		.range([0, width]);		
+	var y = d3.scale.linear()
+			.domain([0, 30])
+			.range([0, height]);
+	var xAxis = d3.svg.axis()
+		.scale(x)
+		.ticks(30)
+		.tickFormat(formatNumber)
+		.orient("bottom");
+	var svg = d3.select("body")
+		.append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	var gx = svg.append("g")
+		.attr("class", "x axis")
+		.attr("transform", "translate(0," + height + ")")
+		.call(xAxis);
+	var bar = 30;		 
+	// Affichage des périodes	
+	svg.append("g").selectAll("periode")
+			.data(periodes)
+			.enter().append("rect")
+			.attr("class", "periode")
+			.attr("x", function(d) {return x(d[2]);})
+			.attr("y", function(d) {if (d[0] % 2 == 0) return height - (bar + 4); else return height - (bar + 4) * 2;}  )
+			.attr("width", function(d) {return x(d[3]) - x(d[2]);})
+			.attr("height", bar)
+			.attr("fill", function(d) {  return "hsl(" + (360 - d[0] * 19) + ",50%,50%)" });
+
+	// Affichage des noms de période
+	svg.append("g").selectAll(".nomPeriode")
+			.data(periodes)
+			.enter().append("a")
+			.attr("xlink:href", function(d) {return d[4];})
+			.append("text")
+			.text(function(d) {return d[1];})
+			.attr("class", "nomPeriode")
+			.attr("fill", function(d) {if (d[0]==buttonid) return "#FFFFFF"; else return "#000000"})
+			.attr ("id", function(d) {return "nomPeriode" + d[0];})
+			.attr("text-anchor", "middle")
+			.attr("x", function(d) {return x((d[2] + d[3]) / 2);})
+			.attr("y", function(d) {if (d[0] % 2 == 0) return height - (bar + 4); else return height - (bar + 4) * 2;}  )
+			.attr("dy", "1.5em")
+			.attr("font-weight", "bold");
+			 
+</script>
+</body>
+</html>

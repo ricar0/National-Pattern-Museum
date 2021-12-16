@@ -6,7 +6,11 @@ import Register from '../pages/Register.vue'
 import Updpwd from '../pages/Updpwd.vue'
 import NewPage from '../pages/NewPage.vue'
 import UserInfo from '../pages/UserInfo.vue'
-import Exhibition from '../pages/Exhibition.vue'
+import Exhibition1 from '../pages/Exhibition1.vue'
+import Exhibition2 from '../pages/Exhibition2.vue'
+import Exhibition3 from '../pages/Exhibition3.vue'
+import Exhibition4 from '../pages/Exhibition4.vue'
+
 import UpdInfo from '../pages/UpdInfo.vue'
 Vue.use(Router)
 
@@ -51,8 +55,20 @@ export default new Router({
       }
     },
     {
-      path: '/Exhibition',
-      component: Exhibition,
+      path: '/Exhibition1',
+      component: Exhibition1,
+    },
+    {
+      path: '/Exhibition2',
+      component: Exhibition2,
+    },
+    {
+      path: '/Exhibition3',
+      component: Exhibition3,
+    },
+    {
+      path: '/Exhibition4',
+      component: Exhibition4,
     },
   ]
 })

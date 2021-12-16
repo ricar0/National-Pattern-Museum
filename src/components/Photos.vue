@@ -14,7 +14,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-10 col-sm-offset-1 col-md-6 col-md-offset-0">
+            <div @click="toExhibition3" class="col-sm-10 col-sm-offset-1 col-md-6 col-md-offset-0">
                 <div class="event_box_wap event_animate_right">
                     <div class="event_box_img">
                         <img src="../../static/assets/images/templatemo_event_02.jpg" class="img-responsive" alt="太阳月亮星辰纹" />
@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="clearfix"></div>
-            <div class="col-sm-10 col-sm-offset-1 col-md-6 col-md-offset-0">
+            <div @click="toExhibition2" class="col-sm-10 col-sm-offset-1 col-md-6 col-md-offset-0">
                 <div class="event_box_wap event_animate_left">
                     <div class="event_box_img">
                         <img src="../../static/assets/images/templatemo_event_03.jpg" class="img-responsive" alt="八角花和四合花" />
@@ -39,7 +39,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-10 col-sm-offset-1 col-md-6 col-md-offset-0">
+            <div @click="toExhibition4" class="col-sm-10 col-sm-offset-1 col-md-6 col-md-offset-0">
                 <div class="event_box_wap event_animate_right">
                     <div class="event_box_img">
                         <img src="../../static/assets/images/templatemo_event_04.jpg" class="img-responsive" alt="八角花纹" />
@@ -61,7 +61,22 @@ export default {
     methods: {
         toExhibition1: function() {
             localStorage.setItem("now", 1)
-            this.$router.push('/Exhibition')
+            this.$router.push('/Exhibition1')
+            window.scrollTo(0,0);
+        },
+        toExhibition2: function() {
+            localStorage.setItem("now", 2)
+            this.$router.push('/Exhibition2')
+            window.scrollTo(0,0);
+        },
+        toExhibition3: function() {
+            localStorage.setItem("now", 3)
+            this.$router.push('/Exhibition3')
+            window.scrollTo(0,0);
+        },
+        toExhibition4: function() {
+            localStorage.setItem("now", 4)
+            this.$router.push('/Exhibition4')
             window.scrollTo(0,0);
         }
     }
