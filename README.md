@@ -1,6 +1,8 @@
 ## National-Pattern-Museum
 这是个基于Vue搭建的民族图案博物馆前端项目
 
+## 更多细节详见开发文档
+ - 详细设计文档.pdf
 ## 准备
 
 本地环境需要安装 [node](http://nodejs.org/)
@@ -28,5 +30,3 @@
     # 构建生成环境,复制生成的dist到server即可
     npm run build
 ```
-
-## 更多细节详见开发文档
